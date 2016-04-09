@@ -6,6 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 $app = new Silex\Application();
 
 $app->post('/callback', function (Request $request) use ($app) {
+
+    error_log("access kiteruyo !");
     $client = new GuzzleHttp\Client();
 
     $body = json_decode($request->getContent(), true);
