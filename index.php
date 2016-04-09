@@ -42,7 +42,7 @@ $app->post('/callback', function (Request $request) use ($app) {
         }
     }
 
-    return 'OK';
+    return 'OKOK';
 });
 
 $app->run();
