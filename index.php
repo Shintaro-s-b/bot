@@ -9,14 +9,12 @@ $app->post('/callback', function (Request $request) use ($app) {
     $body = json_decode($request->getContent(), true);
     $res_msg = createMessage( $body );
 
-    error_log( print_r( json_encode( $body ), true ) );
     $resContent = $body['result'][0]['content'];
-    error_log( print_r( json_encode( $resContent ), true ) );
     $resContent['text'] = $res_msg;
 
-    $options = createOptions( $msg, $resContent );
+    $options = createOptions( $resContent );
 
-#    sendMessage( $options );
+    sendMessage( $options );
 
     return 'OKOK';
 });
@@ -47,7 +45,7 @@ function createMessage( $body ) {
 function createOptions($msg, $resContent) {
     return $options = [
         'body' => json_encode([
-            'to' => [ $msg[ 'content' ][ 'from' ] ],
+            'to' => [ $resContent[ 'from' ] ],
             'toChannel' => 1383378250, # Fixed value
             'eventType' => '138311608800106203', # Fixed value
             'content' => $resContent,
