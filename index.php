@@ -27,6 +27,7 @@ $app->post('/callback', function (Request $request) use ($app) {
     $resContent = $msg['content'];
     $resContent['text'] = $res_msg;
 
+/*
     $options = [
         'body' => json_encode([
             'to' => [$msg['content']['from']],
@@ -44,6 +45,8 @@ $app->post('/callback', function (Request $request) use ($app) {
             'https' => getenv('FIXIE_URL'),
         ],
     ];
+*/
+    $options = createOptions( $msg, $resContent );
 
 /*
     try {
@@ -64,11 +67,27 @@ function callTranslateAPI( $word ) {
     return json_decode( $api_res, true );
 }
 
-function createResponse() {
-
+function createOptions($msg, $resContent) {
+    return $options = [
+        'body' => json_encode([
+            'to' => [$msg['content']['from']],
+            'toChannel' => 1383378250, # Fixed value
+            'eventType' => '138311608800106203', # Fixed value
+            'content' => $resContent,
+        ]),
+        'headers' => [
+            'Content-Type' => 'application/json; charset=UTF-8',
+            'X-Line-ChannelID' => getenv('LINE_CHANNEL_ID'),
+            'X-Line-ChannelSecret' => getenv('LINE_CHANNEL_SECRET'),
+            'X-Line-Trusted-User-With-ACL' => getenv('LINE_CHANNEL_MID'),
+        ],
+        'proxy' => [
+            'https' => getenv('FIXIE_URL'),
+        ],
+    ];
 }
 
-function sendMessage( $client, $option ) {
+function sendMessage( $client, $options ) {
     try {
         $client->request('post', 'https://trialbot-api.line.me/v1/events', $options);
     } catch (Exception $e) {
