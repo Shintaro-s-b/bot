@@ -6,8 +6,8 @@ use Symfony\Component\HttpFoundation\Request;
 $app = new Silex\Application();
 
 $app->post('/callback', function (Request $request) use ($app) {
-/*
     $body = json_decode($request->getContent(), true);
+/*
     foreach ($body['result'] as $msg) {
 
         $word = $msg['content']['text'];
