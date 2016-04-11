@@ -25,7 +25,7 @@ $app->post('/callback', function (Request $request) use ($app) {
 
     error_log($res_msg);
 
-    $resContent = $msg['content'];
+    $resContent = $body['result'][0]['content'];
     $resContent['text'] = $res_msg;
 
     $options = createOptions( $msg, $resContent );
