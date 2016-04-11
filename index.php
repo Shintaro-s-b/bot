@@ -21,12 +21,12 @@ $app->post('/callback', function (Request $request) use ($app) {
         $resContent = $msg['content'];
         $resContent['text'] = 'ｶﾞｯ';
 */
-        $words = msg['content']['text'];
-        $api_res = file_get_contents("https://glosbe.com/gapi/translate?from=en&dest=ja&format=json&phrase=$words&pretty=true");
+        $word = $msg['content']['text'];
+        $api_res = file_get_contents("https://glosbe.com/gapi/translate?from=en&dest=ja&format=json&phrase=$word&pretty=true");
 
         $api_res_json = json_decode( $api_res, true );
 
-        error_log( $api_res_json );        
+        print_r( $api_res_json );        
 
         $requestOptions = [
             'body' => json_encode([
