@@ -1,9 +1,9 @@
 {
-  "name": "line-nullpo",
-  "description": "nullpo watcher for LINE",
-  "repository": "https://github.com/qckanemoto/line-nullpo.git",
+  "name": "line-ashigara",
+  "description": "anime character bot for LINE",
+  "repository": "https://github.com/Shintaro-s-b/bot.git",
   "logo": "https://slack.global.ssl.fastly.net/f30f/img/services/api_200.png",
-  "keywords": ["nullpo", "LINE"],
+  "keywords": ["ashigara", "LINE"],
   "addons": ["fixie:tricycle"],
   "env": {
     "LINE_CHANNEL_ID": {
