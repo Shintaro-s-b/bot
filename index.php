@@ -25,7 +25,8 @@ $app->post('/callback', function (Request $request) use ($app) {
         $api_res = file_get_contents("https://glosbe.com/gapi/translate?from=en&dest=ja&format=json&phrase=$words&pretty=true");
 
         $api_res_json = json_decode( $api_res, true );
-        
+
+        print_r( $api_res_json );        
 
         $requestOptions = [
             'body' => json_encode([
