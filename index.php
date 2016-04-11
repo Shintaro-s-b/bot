@@ -26,7 +26,7 @@ $app->post('/callback', function (Request $request) use ($app) {
 
         $api_res_json = json_decode( $api_res, true );
 
-        print_r( $api_res_json );        
+        error_log( $api_res_json );        
 
         $requestOptions = [
             'body' => json_encode([
