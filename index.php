@@ -6,8 +6,6 @@ use Symfony\Component\HttpFoundation\Request;
 $app = new Silex\Application();
 
 $app->post('/callback', function (Request $request) use ($app) {
-
-    error_log("access kiteruyo !");
     $client = new GuzzleHttp\Client();
 
     $body = json_decode($request->getContent(), true);
@@ -20,31 +18,39 @@ $app->post('/callback', function (Request $request) use ($app) {
 
         foreach( $api_res_json['tuc'] as $tuc ) {
             error_log( $tuc['phrase']['text'] );
+            if( !empty( $tuc['phrase']['text'] ) ) {
+                $res_msg .= $tuc['phrase']['text'] . "\n"
+            }
         }
+    }
 
-        $requestOptions = [
-            'body' => json_encode([
-                'to' => [$msg['content']['from']],
-                'toChannel' => 1383378250, # Fixed value
-                'eventType' => '138311608800106203', # Fixed value
-                'content' => $resContent,
-            ]),
-            'headers' => [
-                'Content-Type' => 'application/json; charset=UTF-8',
-                'X-Line-ChannelID' => getenv('LINE_CHANNEL_ID'),
-                'X-Line-ChannelSecret' => getenv('LINE_CHANNEL_SECRET'),
-                'X-Line-Trusted-User-With-ACL' => getenv('LINE_CHANNEL_MID'),
-            ],
-            'proxy' => [
-                'https' => getenv('FIXIE_URL'),
-            ],
-        ];
+    $resContent = $msg['content'];
+    $resContent['text'] = $res_msg;
 
-        try {
-#            $client->request('post', 'https://trialbot-api.line.me/v1/events', $requestOptions);
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-        }
+    error_log($res_msg);
+
+    $requestOptions = [
+        'body' => json_encode([
+            'to' => [$msg['content']['from']],
+            'toChannel' => 1383378250, # Fixed value
+            'eventType' => '138311608800106203', # Fixed value
+            'content' => $resContent,
+        ]),
+        'headers' => [
+            'Content-Type' => 'application/json; charset=UTF-8',
+            'X-Line-ChannelID' => getenv('LINE_CHANNEL_ID'),
+            'X-Line-ChannelSecret' => getenv('LINE_CHANNEL_SECRET'),
+            'X-Line-Trusted-User-With-ACL' => getenv('LINE_CHANNEL_MID'),
+        ],
+        'proxy' => [
+            'https' => getenv('FIXIE_URL'),
+        ],
+    ];
+
+    try {
+#        $client->request('post', 'https://trialbot-api.line.me/v1/events', $requestOptions);
+    } catch (Exception $e) {
+        error_log($e->getMessage());
     }
 
     return 'OKOK';
