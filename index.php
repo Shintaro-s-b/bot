@@ -77,7 +77,7 @@ function createOptions($msg, $resContent) {
 
 function sendMessage( $options ) {
     try {
-        $client = new GuzzleHttp\Client()
+        $client = new GuzzleHttp\Client();
         $client->request( 'post', 'https://trialbot-api.line.me/v1/events', $options );
     } catch ( Exception $e ) {
         error_log( $e->getMessage() );
