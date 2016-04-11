@@ -19,7 +19,7 @@ $app->post('/callback', function (Request $request) use ($app) {
         foreach( $api_res_json['tuc'] as $tuc ) {
             error_log( $tuc['phrase']['text'] );
             if( !empty( $tuc['phrase']['text'] ) ) {
-                $res_msg .= $tuc['phrase']['text'] . "\n"
+                $res_msg .= $tuc['phrase']['text'] . "\n";
             }
         }
     }
