@@ -22,7 +22,7 @@ $app->post('/callback', function (Request $request) use ($app) {
             }
         }
     }
-    $res_msg .= "だよっ！(＞ ∇ ＜ )>
+    $res_msg .= "だよっ！<(＞ ∇ ＜ )";
 
     $resContent = $msg['content'];
     $resContent['text'] = $res_msg;
