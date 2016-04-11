@@ -27,14 +27,12 @@ function callTranslateAPI( $word ) {
 }
 
 function createMessage( $body ) {
-    foreach ( $body[ 'result' ] as $msg ) {
-        $word = $msg[ 'content' ][ 'text' ];
-        $api_res_json = callTranslateAPI( $word );
-        $res_msg = "$word の意味は...\n";
-        foreach( $api_res_json[ 'tuc' ] as $tuc ) {
-            if( !empty( $tuc[ 'phrase' ][ 'text' ] ) ) {
-                $res_msg .= $tuc[ 'phrase' ][ 'text' ] . "\n";
-            }
+    $word = $body[ 'result' ][ 0 ][ 'content' ][ 'text' ];
+    $api_res_json = callTranslateAPI( $word );
+    $res_msg = "$word の意味は...\n";
+    foreach( $api_res_json[ 'tuc' ] as $tuc ) {
+        if( !empty( $tuc[ 'phrase' ][ 'text' ] ) ) {
+            $res_msg .= $tuc[ 'phrase' ][ 'text' ] . "\n";
         }
     }
     $res_msg .= "だよっ！<(＞ ∇ ＜ )";
