@@ -48,7 +48,7 @@ $app->post('/callback', function (Request $request) use ($app) {
     ];
 
     try {
-#        $client->request('post', 'https://trialbot-api.line.me/v1/events', $requestOptions);
+        $client->request('post', 'https://trialbot-api.line.me/v1/events', $requestOptions);
     } catch (Exception $e) {
         error_log($e->getMessage());
     }
