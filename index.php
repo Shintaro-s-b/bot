@@ -28,7 +28,7 @@ $app->post('/callback', function (Request $request) use ($app) {
 
     $options = createOptions( $msg, $resContent );
 
-    sendMessage( $client, $options );
+    sendMessage( $options );
 
     return 'OKOK';
 });
