@@ -12,12 +12,20 @@ $app->post('/callback', function (Request $request) use ($app) {
 
     $body = json_decode($request->getContent(), true);
     foreach ($body['result'] as $msg) {
+
+/*
         if (!preg_match('/(ぬるぽ|ヌルポ|ﾇﾙﾎﾟ|nullpo)/i', $msg['content']['text'])) {
             continue;
         }
 
         $resContent = $msg['content'];
         $resContent['text'] = 'ｶﾞｯ';
+*/
+        $words = msg['content']['text'];
+        $api_res = file_get_contents("https://glosbe.com/gapi/translate?from=en&dest=ja&format=json&phrase=$words&pretty=true");
+
+        $api_res_json = json_decode( $api_res, true );
+        
 
         $requestOptions = [
             'body' => json_encode([
@@ -38,7 +46,7 @@ $app->post('/callback', function (Request $request) use ($app) {
         ];
 
         try {
-            $client->request('post', 'https://trialbot-api.line.me/v1/events', $requestOptions);
+#            $client->request('post', 'https://trialbot-api.line.me/v1/events', $requestOptions);
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
