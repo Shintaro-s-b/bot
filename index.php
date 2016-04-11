@@ -13,20 +13,14 @@ $app->post('/callback', function (Request $request) use ($app) {
     $body = json_decode($request->getContent(), true);
     foreach ($body['result'] as $msg) {
 
-/*
-        if (!preg_match('/(ぬるぽ|ヌルポ|ﾇﾙﾎﾟ|nullpo)/i', $msg['content']['text'])) {
-            continue;
-        }
-
-        $resContent = $msg['content'];
-        $resContent['text'] = 'ｶﾞｯ';
-*/
         $word = $msg['content']['text'];
         $api_res = file_get_contents("https://glosbe.com/gapi/translate?from=en&dest=ja&format=json&phrase=$word&pretty=true");
 
         $api_res_json = json_decode( $api_res, true );
 
-        print_r( $api_res_json );        
+        foreach( $api_res_json['tuc'] as $tuc ) {
+            error_log( $tuc['phrase']['text'] );
+        }
 
         $requestOptions = [
             'body' => json_encode([
