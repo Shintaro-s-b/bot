@@ -52,7 +52,7 @@ $app->post('/callback', function (Request $request) use ($app) {
         error_log($e->getMessage());
     }
 */
-    sendMessage( $options );
+    sendMessage( $client, $options );
 
     return 'OKOK';
 });
@@ -68,7 +68,7 @@ function createResponse() {
 
 }
 
-function sendMessage( $option ) {
+function sendMessage( $client, $option ) {
     try {
         $client->request('post', 'https://trialbot-api.line.me/v1/events', $options);
     } catch (Exception $e) {
