@@ -12,9 +12,9 @@ $app->post('/callback', function (Request $request) use ($app) {
     foreach ($body['result'] as $msg) {
 
         $word = $msg['content']['text'];
-        $api_res = file_get_contents("https://glosbe.com/gapi/translate?from=en&dest=ja&format=json&phrase=$word&pretty=true");
-
-        $api_res_json = json_decode( $api_res, true );
+#        $api_res = file_get_contents("https://glosbe.com/gapi/translate?from=en&dest=ja&format=json&phrase=$word&pretty=true");
+#        $api_res_json = json_decode( $api_res, true );
+        $api_res_json = callTranslateAPI( $word );
         $res_msg = "$word の意味は...\n";
         foreach( $api_res_json['tuc'] as $tuc ) {
             if( !empty( $tuc['phrase']['text'] ) ) {
@@ -27,9 +27,7 @@ $app->post('/callback', function (Request $request) use ($app) {
     $resContent = $msg['content'];
     $resContent['text'] = $res_msg;
 
-    error_log($res_msg);
-
-    $requestOptions = [
+    $options = [
         'body' => json_encode([
             'to' => [$msg['content']['from']],
             'toChannel' => 1383378250, # Fixed value
@@ -47,13 +45,33 @@ $app->post('/callback', function (Request $request) use ($app) {
         ],
     ];
 
+/*
     try {
         $client->request('post', 'https://trialbot-api.line.me/v1/events', $requestOptions);
     } catch (Exception $e) {
         error_log($e->getMessage());
     }
+*/
+    sendMessage( $options );
 
     return 'OKOK';
 });
 
 $app->run();
+
+function callTranslateAPI( $word ) {
+    $api_res = file_get_contents("https://glosbe.com/gapi/translate?from=en&dest=ja&format=json&phrase=$word&pretty=true");
+    return json_decode( $api_res, true );
+}
+
+function createResponse() {
+
+}
+
+function sendMessage( $option ) {
+    try {
+        $client->request('post', 'https://trialbot-api.line.me/v1/events', $options);
+    } catch (Exception $e) {
+        error_log($e->getMessage());
+    }
+}
