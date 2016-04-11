@@ -23,6 +23,8 @@ $app->post('/callback', function (Request $request) use ($app) {
 */
     $res_msg = createMessage( $body );
 
+    error_log($res_msg);
+
     $resContent = $msg['content'];
     $resContent['text'] = $res_msg;
 
