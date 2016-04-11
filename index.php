@@ -23,14 +23,13 @@ $app->post('/callback', function (Request $request) use ($app) {
 */
     $res_msg = createMessage( $body );
 
-    error_log($res_msg);
-    error_log( print_r( $body ) );
+    error_log( print_r( json_encode( $body ), true ) );
     $resContent = $body['result'][0]['content'];
     $resContent['text'] = $res_msg;
 
     $options = createOptions( $msg, $resContent );
 
-    sendMessage( $options );
+#    sendMessage( $options );
 
     return 'OKOK';
 });
@@ -54,6 +53,7 @@ function createMessage( $body ) {
         }
     }
     $res_msg .= "だよっ！<(＞ ∇ ＜ )";
+
     return $res_msg;
 }
 
