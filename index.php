@@ -7,24 +7,11 @@ $app = new Silex\Application();
 
 $app->post('/callback', function (Request $request) use ($app) {
     $body = json_decode($request->getContent(), true);
-/*
-    foreach ($body['result'] as $msg) {
-
-        $word = $msg['content']['text'];
-        $api_res_json = callTranslateAPI( $word );
-        $res_msg = "$word の意味は...\n";
-        foreach( $api_res_json['tuc'] as $tuc ) {
-            if( !empty( $tuc['phrase']['text'] ) ) {
-                $res_msg .= $tuc['phrase']['text'] . "\n";
-            }
-        }
-    }
-    $res_msg .= "だよっ！<(＞ ∇ ＜ )";
-*/
     $res_msg = createMessage( $body );
 
     error_log( print_r( json_encode( $body ), true ) );
     $resContent = $body['result'][0]['content'];
+    error_log( print_r( json_encode( $resContent ), true ) );
     $resContent['text'] = $res_msg;
 
     $options = createOptions( $msg, $resContent );
