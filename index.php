@@ -15,7 +15,7 @@ $app->post('/callback', function (Request $request) use ($app) {
         $api_res = file_get_contents("https://glosbe.com/gapi/translate?from=en&dest=ja&format=json&phrase=$word&pretty=true");
 
         $api_res_json = json_decode( $api_res, true );
-        $res_msg = "$word の意味は...\n"
+        $res_msg = "$word の意味は...\n";
         foreach( $api_res_json['tuc'] as $tuc ) {
             if( !empty( $tuc['phrase']['text'] ) ) {
                 $res_msg .= $tuc['phrase']['text'] . "\n";
