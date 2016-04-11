@@ -42,7 +42,7 @@ function createMessage( $body ) {
     return $res_msg;
 }
 
-function createOptions($msg, $resContent) {
+function createOptions( $resContent ) {
     return $options = [
         'body' => json_encode([
             'to' => [ $resContent[ 'from' ] ],
